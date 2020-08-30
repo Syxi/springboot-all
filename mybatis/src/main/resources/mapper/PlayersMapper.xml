@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.mapper.PlayersMapper">
+  <resultMap id="BaseResultMap" type="com.mybatis.entity.Players">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="player_name" jdbcType="VARCHAR" property="playerName" />
+    <result column="tid" jdbcType="INTEGER" property="tid" />
+    <!-- 多对一查询，查询多方对象也把关联的一方对象查询出来 -->
+    <association property="team" javaType="com.mybatis.entity.Team">
+      <id column="id" property="id"/>
+      <result  column="team_name" property="teamName"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, player_name, tid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  </select>
+  <!-- 多对一查询-->
+  <select id="selectAll" parameterType="com.mybatis.entity.Players" resultMap="BaseResultMap">
+   select p.id, p.player_name, t.id, t.team_name
+    from player p, team t
+    where  t.id = p.tid
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from player
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.mybatis.entity.Players" useGeneratedKeys="true">
+    insert into player (player_name, tid)
+    values (#{playerName,jdbcType=VARCHAR}, #{tid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.mybatis.entity.Players" useGeneratedKeys="true">
+    insert into player
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="playerName != null">
+        player_name,
+      </if>
+      <if test="tid != null">
+        tid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="playerName != null">
+        #{playerName,jdbcType=VARCHAR},
+      </if>
+      <if test="tid != null">
+        #{tid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mybatis.entity.Players">
+    update player
+    <set>
+      <if test="playerName != null">
+        player_name = #{playerName,jdbcType=VARCHAR},
+      </if>
+      <if test="tid != null">
+        tid = #{tid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mybatis.entity.Players">
+    update player
+    set player_name = #{playerName,jdbcType=VARCHAR},
+      tid = #{tid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

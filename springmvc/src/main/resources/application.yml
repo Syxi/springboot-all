@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: springmvc
+  datasource:
+  url: jdbc:mysql://localhost:3306/springboot_all?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+  username: root
+  password: 1234
+  driver-class-name: com.mysql.cj.jdbc.Driver

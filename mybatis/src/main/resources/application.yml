@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: mybatis
+  datasource:
+    url: jdbc:mysql://localhost:3306/springboot_all?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  profiles:
+   active: prod
+
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    #在关联查询中的延迟加载
+    aggressive-lazy-loading: true
+
+

@@ -1,0 +1,41 @@
+spring:
+  boot:
+    admin:
+      client:
+        instance:
+          service-base-url: http://localhost:8080/admin-server
+
+  application:
+    name: actuator
+  datasource:
+    url: jdbc:mysql://localhost:3306/springboot_all?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    #在关联查询中的延迟加载
+    aggressive-lazy-loading: true
+
+server:
+  port: 8080
+
+management:
+  server:
+    port: 8080
+    servlet:
+      context-path: /admin-server  # actuator的访问路径
+
+
+
+
+
